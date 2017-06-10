@@ -15,7 +15,7 @@ To test certain concepts and practice Arduinos, I built a "monstershield" Arduin
 - Beneath of anything is Arduino Uno R3.
 - Then comes the Ethernet Shield. I have tried the "normal" Wiznet 5100 R3shield and also the one with marking "MEGA compatible" that has more LEDs onboard.
 - Then comes a (mechanically modified) ScrewShield v1 from Iteaduino - it helps debugging and raises LCD Shield over the Ethernet jack.
-- On the top of everything is LCD Keypad Shield that has been HW modified (Reset button joined to ladder, dimmer upgradedand relocated from digital pin 10 to 03), while analog input relocated from PIN A0 (14) to A3 (17). Last but not least, DB4 of LCD was relocated away from Pin2 to permit experiments with the onboard SD card.
+- On the top of everything is LCD Keypad Shield that has been HW modified (Reset button joined to ladder, dimmer upgradedand relocated from digital pin 10 to 03), while analog input relocated from PIN A0 (14) to A3 (17). Last but not least, DB4 of LCD was relocated away from Pin04 to permit experiments with the onboard SD card.
 
 This is my pin plan:
 
