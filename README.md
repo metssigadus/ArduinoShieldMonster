@@ -3,32 +3,24 @@ Programs for my custom HW-modded Arduino Shields
 
 I keep here these Arduino sketches modified for my Monster Shield.
 
-It is a known problem that certain Arduino shields are mutually exclusive.
+It is a known problem that certain Arduino shields (http://shieldlist.org/) are mutually exclusive.
 In most cases the cause is very simple - shields are using overlapping resources.
 
-[PIC]
+![Arduino Shield Monster](Pic/20170610_225047-1c.jpg?raw=true "Arduino Shield Monster")
 
 E.g. a conflict will arise between Ethernet and LCD Keypad Shields,
 because both use pin 10.
 
-If physical modding is OK four you, this is the way to go.
-One should not forget, physical mods are later to be reflected in code.
+If physical modding is OK four you, this is the way to go. One should not forget, physical mods are later to be reflected in code.
 
-To test certain concepts and  practically work with Arduino,
-I built a "monstershield" Arduino.
+To test certain concepts and  practically work with Arduino, I built a "monstershield" Arduino. Well, Internet is full of real monsters, my only interest was to put together EtherShield and LCD Kepypad Shield.
 
 Beneath of anything is Arduino Uno R3.
-The comes the Ethernet Shield. I have tried the "normal" Wiznet 5100 R3
-shield and the one with marking "MEGA compatible" that has more LEDs onboard. 
-Then comes a (mechanically modified) ScrewShield v1 from Iteaduino
-- it helps debugging and raises LCD Shield over the Ethernet jack 
-On the top of everything is LCD Keypad Shield that has been
-HW modified (Reset button joined to ladder, dimmer upgraded
-and relocated from digital pin 10 to 03), while analog input relocated
-from PIN A0 (14) to A3 (17).
+Then comes the Ethernet Shield. I have tried the "normal" Wiznet 5100 R3shield and the one with marking "MEGA compatible" that has more LEDs onboard. Then comes a (mechanically modified) ScrewShield v1 from Iteaduino - it helps debugging and raises LCD Shield over the Ethernet jack. On the top of everything is LCD Keypad Shield that has been HW modified (Reset button joined to ladder, dimmer upgraded
+and relocated from digital pin 10 to 03), while analog input relocated from PIN A0 (14) to A3 (17). Last but not least, relocated Pin 4 to away from LCD to make experiments with the onboard SD card.
 
-Last but not least, I am thinking about relocating Pin 4 to
-make experiments with the onboard SD card.
+This is my pin plan:
+
 
 The success so far:
 
