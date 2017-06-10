@@ -21,6 +21,7 @@ and relocated from digital pin 10 to 03), while analog input relocated from PIN 
 
 This is my pin plan:
 
+![Pin Plan](Pic/Planning.png?raw=true "Avoiding Pin Conflicts")
 
 The success so far:
 
