@@ -1,5 +1,5 @@
 # ArduinoShieldMonster
-Programs for my custom HW-modded Arduino Shields. Anything from public domain, no professional value. I keep these modified Arduino sketches here for my own Monster Shield.
+Programs for my custom HW-modded Arduino Shields. Everything derived from public domain, no professional value. I keep these modified Arduino sketches for my own Monster Shield.
 
 It is a known problem that certain Arduino shields (http://shieldlist.org/) are mutually exclusive.
 In most cases the cause is very simple - shields are using overlapping resources.
