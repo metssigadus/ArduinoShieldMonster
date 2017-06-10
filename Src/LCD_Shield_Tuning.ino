@@ -9,9 +9,20 @@ available on the Arduino LCD shield
 and measure the resulting ADC output
 
 We use a *MODIFIED* 6-button shield with the reset button added to ladder, too.
-Adapted from the 5-button code:  Mark Bramwell, July 2010
-Tested and debugged  2017-06-10
- 
+Adapted from the 5-button code:  Mark Bramwell, July 2010 by unknown author ;)
+Tested and debugged  2017-06-10.
+Useful links:
+https://meettechniek.info/embedded/arduino-analog.html
+
+https://biskandar.wordpress.com/2012/10/17/request-counter-with-arduino-uno-ethernet-shi/
+
+https://forum.arduino.cc/index.php?topic=91256.0
+
+How to Debouce Six Buttons on One Analog Pin With Arduino - Electrical Engineering Stack Exchange -
+https://electronics.stackexchange.com/questions/101409/how-to-debouce-six-buttons-on-one-analog-pin-with-arduino
+
+Multiple Buttons on 1 analog pin -
+http://forum.arduino.cc/index.php?topic=8558.0
 ********************************************************/
 int DelayTime=1200;
 
