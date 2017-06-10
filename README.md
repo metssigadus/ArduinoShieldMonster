@@ -12,9 +12,10 @@ If physical modding is OK four you, this is the way to go. One should not forget
 
 To test certain concepts and practice Arduinos, I built a "monstershield" Arduino. Well, Internet is full of real monsters, my only interest was to put together EtherShield and LCD Kepypad Shield.
 
-Beneath of anything is Arduino Uno R3.
-Then comes the Ethernet Shield. I have tried the "normal" Wiznet 5100 R3shield and the one with marking "MEGA compatible" that has more LEDs onboard. Then comes a (mechanically modified) ScrewShield v1 from Iteaduino - it helps debugging and raises LCD Shield over the Ethernet jack. On the top of everything is LCD Keypad Shield that has been HW modified (Reset button joined to ladder, dimmer upgraded
-and relocated from digital pin 10 to 03), while analog input relocated from PIN A0 (14) to A3 (17). Last but not least, DB4 of LCD was relocated away from Pin2 to permit experiments with the onboard SD card.
+- Beneath of anything is Arduino Uno R3.
+- Then comes the Ethernet Shield. I have tried the "normal" Wiznet 5100 R3shield and also the one with marking "MEGA compatible" that has more LEDs onboard.
+- Then comes a (mechanically modified) ScrewShield v1 from Iteaduino - it helps debugging and raises LCD Shield over the Ethernet jack.
+- On the top of everything is LCD Keypad Shield that has been HW modified (Reset button joined to ladder, dimmer upgradedand relocated from digital pin 10 to 03), while analog input relocated from PIN A0 (14) to A3 (17). Last but not least, DB4 of LCD was relocated away from Pin2 to permit experiments with the onboard SD card.
 
 This is my pin plan:
 
@@ -22,7 +23,7 @@ This is my pin plan:
 
 The success so far:
 
-- Arduino Uno struggles to provide power. Ther are glitches sometimes. An external PSU should be better ;). 
+- Arduino Uno struggles to provide power. There are glitches sometimes. An external PSU should be better ;). 
 - mechanical rework for LCD was successful. LCDKeypadCheck says: BL Cirquit Good, see http://forum.arduino.cc//index.php?topic=96747 .The most critical operation was soldering off the LCD subassembly. I did it partially mechanically - sawing through the 10 pins and desoldering the rest six pins. Very naturally, the pin headers for the LCD were to be substituted.
 - UdpNtpClient works well.
 - EtherLCDserver works well
