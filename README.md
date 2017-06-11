@@ -28,3 +28,13 @@ The success so far:
 - UdpNtpClient works well.
 - EtherLCDserver works well
 - tried to implement Syslog by arcao https://github.com/arcao/Syslog but did not succeed - the sketch hangs right after first syslog.log call. Will return to that later.
+
+While people were at Rammstein concert (2017-06-11), I soldered the Sensor Board:
+
+![Sensor Board](Pic/20170611_232448-a.jpg?raw=true "Screw Shield 1.0 with sensors")
+
+This is a screenshot of earlier WebServer_004.ino (In September 2016 I polished it 6 hrs up to trying to create the art deco table with round corners ... then I understood it's time to finish.)
+
+![WebServer_004](Pic/WebServer_004--2016-06-11.png?raw=true "A refactored version of the chrestomathic Analog Webserver")
+
+
