@@ -5,27 +5,15 @@
   
   Multiple DS18B20 Temperature Sensors
   Displayed on 2x16 character LCD display
-  
-  Also reads DS3231 temperature, src: https://forum.arduino.cc/index.php?topic=262986.0
-  
-  TODO: Code is ugly, needs refucktoring (to even up subs for both flavours of code)
-  */
-  
-/* Display planning - with certain compromises, it is possible
-  to put 4 sensor's results onto the 16x2 display.
-  The limitation is - we do not plan for >99.99 degree values.
-  nor plan we for - (minus) values. We only use Celsius degrees.
-  Outside of these considerations, a 16x2 display isn't sufficient.
   */
 
 /*-----( Import libraries )-----*/
 #include <OneWire.h>
-#include <Wire.h>
 #include <DallasTemperature.h>
 #include <LiquidCrystal.h> 
 
 // When
-String versionNo = "2017-06-14T0110";
+String versionNo = "2017-06-15T0107";
 
 /*-----( Declare Constants and Pin Numbers )-----
   Seems like #define's take less space than const int's ?
@@ -33,10 +21,6 @@ String versionNo = "2017-06-14T0110";
 
 // Data wire is plugged into port A2 on the Arduino (can be changed)
 #define ONE_WIRE_BUS A2
-
-#define DS3231_I2C_ADDR             0x68
-#define DS3231_TEMPERATURE_MSB      0x11
-#define DS3231_TEMPERATURE_LSB      0x12
 
 //--- LCD pin assignments
 #define pin_RS 8 // arduino pin wired to LCD RS
@@ -72,12 +56,9 @@ DeviceAddress Probe03 = { 0x28, 0x79, 0xEE, 0xFE, 0x08, 0x00, 0x00, 0x29 }; // R
 DeviceAddress Probe04 = { 0x28, 0xFF, 0x68, 0x45, 0x91, 0x16, 0x04, 0xA2 }; // BLUE
 DeviceAddress Probe05 = { 0x28, 0xFF, 0x8B, 0x45, 0x88, 0x16, 0x03, 0x71 }; // TRANSP
 
-
 // Temperature resolution: fast=9, most_precise=12. Choose 9..12
-   int precisionBits = 12;
+int precisionBits = 12;
 
-   byte temp_msb;
-   byte temp_lsb;
 // --------------------------------------------------------------------
 
 void setup()   /****** SETUP: RUNS ONCE ******/
@@ -89,9 +70,7 @@ void setup()   /****** SETUP: RUNS ONCE ******/
   sensors.setResolution(Probe02, precisionBits);
   sensors.setResolution(Probe03, precisionBits);
 
-// Initialize Wire.h to read DS3231 temperature
-  Wire.begin();
-   
+
 //---------------- Initialize the lcd ------------------  
   lcd.begin (16,2);  // 20 characters, 4 lines
 // Dim on the backlight
@@ -109,8 +88,8 @@ void loop()   /****** LOOP: RUNS CONSTANTLY ******/
 
   // Print the values on the LCD, home=0,0
   
-  /* lcd.setCursor(8,1);    //Start at character 8 on line 1
-  lcd.print("Celsius"); // show it FIRST so that it will not blink */
+  lcd.setCursor(8,1);    //Start at character 8 on line 1
+  lcd.print("Celsius"); // show it FIRST so that it will not blink
   
   lcd.setCursor(0,0); //Start at character 0 on line 0
   lcd.print("=");
@@ -124,35 +103,15 @@ void loop()   /****** LOOP: RUNS CONSTANTLY ******/
   lcd.print("=");
   displayTemperature(Probe03);  
   
-  temp_msb = DS3231_get_MSB();
-  temp_lsb = DS3231_get_LSB();
-  
-  // Now the fourth sensor - temperature part of DS3231
-  lcd.setCursor(8,1);    //Start at character 8 on line 1
-  lcd.print("=");
-  lcd.print(temp_msb);
-  
-  switch(temp_lsb){
-  case 0:
-    lcd.print(".00");
-    break;
-  case 1 :
-    lcd.print(".25");
-    break;
-  case 2:
-    Serial.print(".50");
-    break;
-  case 3:
-    lcd.print(".75");
-    break;
-  }
-  
-  lcd.print((char)223); // to the fourth sensor, violating structural programming ;)
- 
   delay(blinkConstant);
 
+  /* Display planning - with certain compromises, it is possible
+  to put 4 sensor's results onto the 16x2 display.
+  The limitation is - we do not plan for >99.99 degree values.
+  nor plan we for - (minus) values. We only use Celsius degrees.
+  Outside of these considerations, a 16x2 display isn't sufficient.
+  */
 }//--(end main loop )---
-
 
 /*-----( Declare User-written Functions )-----*/
 void displayTemperature(DeviceAddress deviceAddress)
@@ -176,30 +135,6 @@ float tempC = sensors.getTempC(deviceAddress);
    */
    }
 }// End printTemperature
-
-  // 2 functions to read DS3231
-  
-byte DS3231_get_MSB(){
-  Wire.beginTransmission(DS3231_I2C_ADDR);
-  Wire.write(DS3231_TEMPERATURE_MSB);
-  Wire.endTransmission();
-
-  Wire.requestFrom(DS3231_I2C_ADDR, 1);
-  temp_msb = Wire.read();
-
-}
-
-byte DS3231_get_LSB(){
-
-  Wire.beginTransmission(DS3231_I2C_ADDR);
-  Wire.write(DS3231_TEMPERATURE_LSB);
-  Wire.endTransmission();
-
-  Wire.requestFrom(DS3231_I2C_ADDR, 1);
-  temp_lsb = Wire.read() >> 6;
-
-
-}
 
 //*********( THE END )***********
 
