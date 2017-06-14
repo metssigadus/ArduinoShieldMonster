@@ -1,0 +1,31 @@
+There be a separate file describing the design idea behind my ArduinoShieldMonster.
+So far, this is the draft. 2017-06-14.
+
+Theory.
+
+There are interesting links on the topic of Arduino Analog buttons.
+It is possible to put *more* buttons onto an ADC input than only five present on ElecFreak Arduino LCD Shield (http://www.instructables.com/id/Arduino-LCD-Keypad-Shield-1/).
+It is even possible to detect simultaneous keypresses - but that is not in my scope.
+
+- https://meettechniek.info/embedded/arduino-analog.html
+- https://biskandar.wordpress.com/2012/10/17/request-counter-with-arduino-uno-ethernet-shi/
+- https://forum.arduino.cc/index.php?topic=91256.0
+
+How to Debouce Six Buttons on One Analog Pin With Arduino - Electrical Engineering Stack Exchange
+- https://electronics.stackexchange.com/questions/101409/how-to-debouce-six-buttons-on-one-analog-pin-with-arduino
+
+Multiple Buttons on 1 analog pin
+- http://forum.arduino.cc/index.php?topic=8558.0
+
+Aim
+
+   TBD
+
+Rework
+
+The most critical operation was soldering off the LCD subassembly. I did it partially mechanically - sawing through the 10 pins and desoldering the rest six pins. Very naturally, the pin headers for the LCD were to be substituted.
+
+(Reset button joined to ladder, dimmer upgradedand relocated from digital pin 10 to 03), while analog input relocated from PIN A0 (14) to A3 (17). Last but not least, DB4 of LCD was relocated away from Pin04 to permit experiments with the onboard SD card.
+
+
+
