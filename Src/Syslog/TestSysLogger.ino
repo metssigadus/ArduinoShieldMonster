@@ -11,7 +11,7 @@
 #define localUdpPort 51400
 #define syslogPort 51400
 
-String versionNo = "2017-06-14T2327";
+String versionNo = "2017-06-14T2337";
 unsigned int iteration = 1;
 char myBuff[10]; // 4,294,967,295 (2^32 - 1) vs 65,535 (2^16) - 1
 
@@ -56,7 +56,7 @@ void setup()
 void loop()
 {
     String message = "Go next loop, iteration #";
-    sprintf(myBuff, "%5u", iteration);
+    sprintf(myBuff, "%5u", iteration); // sprintf() overhead about 1582 bytes of memory
     message = message + myBuff;
     message = message + "; runtime milliseconds: ";
     sprintf(myBuff, "%10ld", millis()); // http://forum.arduino.cc/index.php?topic=95175.0
