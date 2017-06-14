@@ -31,10 +31,11 @@ The success so far:
 
 While people were at Rammstein concert (2017-06-11), I soldered the Sensor Board:
 
-![Sensor Board](Pic/20170611_232448-a.jpg?raw=true "Screw Shield 1.0 with sensors")
+![Sensor Board](Pic/20170612_235148-c.jpg?raw=true "Screw Shield 1.0 with sensors and RTC")
 
-This is a screenshot of earlier WebServer_004.ino (In September 2016 I polished it 6 hrs up to trying to create the art deco table with round corners ... then I understood it's time to finish.)
+Below is a screenshot of an earlier WebServer_004.ino (In September 2016 I polished it 6 hrs up to trying to create the art deco table with round corners ... then I understood it's time to finish.)
 
 ![WebServer_004](Pic/WebServer_004--2016-06-11.png?raw=true "A refactored version of the chrestomathic Analog Webserver")
 
+Anyway, I wanted to say that on a condition the free RAM is under control, the  Arduino Webserver is rather stable - I have tested it long involving a special client script.
 
