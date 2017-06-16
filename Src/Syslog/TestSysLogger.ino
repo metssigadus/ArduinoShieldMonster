@@ -2,6 +2,7 @@
  * a minimal syslog sketch
  * derived from "Alarm sketch" by Ryan Adams 2/29/2012
  * #define sketchVersion "0.1.5"
+ * Src: https://forum.arduino.cc/index.php?topic=89936.0
  */
 
 #include <SPI.h>
@@ -11,7 +12,7 @@
 #define localUdpPort 51400
 #define syslogPort 51400
 
-String versionNo = "2017-06-14T2337";
+String versionNo = "2017-06-16T1329";
 unsigned int iteration = 1;
 char myBuff[10]; // 4,294,967,295 (2^32 - 1) vs 65,535 (2^16) - 1
 
