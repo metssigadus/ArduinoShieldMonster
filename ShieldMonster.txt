@@ -41,3 +41,42 @@ Layers:
 - Wiznet 5100 based Ethernet Shield (Mega compatible is more advisable) (pic int solder)
 - Arduino Uno R3
 
+
+Generic remarks about security
+
+
+The far-reaching plan is to install MQTT and a relevant client lib to Arduino.
+As we know, Arduino is lacking resources to support a proper SSL connection,
+thus we  put up locally up an "application firewall" host (with MQTT)
+which will take unencrypted http requests from inside and, if needed,
+will transmit these to the cloud, but now already properly encrypted.
+
+We have a certain understanding about the on-site security, including but not
+limited to the following postulates:
+
+- No WiFi used. WiFi is as much convenient as it is inherently insecure.
+To not endanger the rest of the installation (in case you, hmm, have one),
+a) physical cabling is to be used, b) a FW assumed, c) an extra segment assumed.
+
+- IoT devices _SHOULD_NEVER_ reside in a generic network segment.
+The consequence is, a proper hardware firewall with multiple physical interfaces is needed,
+a requirement somewhat not fulfilled an average home or lab. We a sorry, get secure!
+
+- DHCP should be used to obtain IP addresses (disregarding whether a client or server).
+That decision makes the infrastructure easily manageable and portable.
+In case of Arduinos, the MAC address is defined in software. Thus, not to saturate
+the resources, the Administrator must have some counter measures in his bag.
+(As an exercise, try to program a MAC crawler that will  exhaust the DHCP server pool.)
+
+This view - all clients get their IP addresses via DHCP even if they are servers -  also
+deviates from the average Arduino textbook logic that an Ethernet server is to be launched
+on top of a static IP. It should not. However, the current Ethernet library is not supporting
+some primitives useful for an inventory (as an excercise, do try to print out your network mask).
+
+- A central syslog server is a mandatory centerpiece of any secure installation.
+What is also true, most homes and labs are missing one. Thus, get one, it helps much.
+After you get your data right in syslog, it is easy to switch over to a message broker.
+Syslog will help you conduct unattended experiments, serving as a substitution
+
+
+to somewhat limited SD card domain (8+3 FAT and one open file only).
