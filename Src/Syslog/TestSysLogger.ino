@@ -1,15 +1,15 @@
 //!
 //! @file    TestSysLogger.ino
 //! @author  Identity Withheld <metssigadus@xyz.ee> (l)
-//! @date    2017-06-17
+//! @date    2017-06-18
 //! @brief   A minimal syslog sketch
 //!          Derived from "Alarm sketch" by Ryan Adams 2012-02-29
 //!          Orig src: https://forum.arduino.cc/index.php?topic=89936.0
 //! @note    Reformatted but not yet tested
 //! @note    This program is to stress test your hardware and syslog
 //! @details
-//!    <b>Last Modified:         </b> 2017-06-17                   \n
-//!    <b>Version:               </b> 0.0.3                        \n
+//!    <b>Last Modified:         </b> 2017-06-18                   \n
+//!    <b>Version:               </b> 0.0.4                        \n
 //!    <b>Company:               </b> R777                         \n
 //!    <b>Project:               </b> ArduinoShieldMonster         \n
 //!    <b>Language:              </b> nugged Arduino C/C++         \n
@@ -240,7 +240,7 @@ int freeRam ()
 
 //------------------------------------------
 //! @brief    Obtain the IP address of the Ethernet Shield
-//! @details  We are dependent on which IP the DHCP server actually gave us
+//! @details  Transcribe the IP address into some more usable format
 //! @note     Src: https://stackoverflow.com/questions/28119653/arduino-display-ethernet-localip
 char* ip2CharArray(IPAddress ip) {
   static char a[16];
