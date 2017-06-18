@@ -38,7 +38,7 @@
 //==========================================================================//
 
 static const char theNameOfThisApp[11] = "TestLogger";  // as it will show up in syslog files
-static const char currentVersion[16] = "2017-06-18T0601"; // We might need to display it
+static const char currentVersion[16] = "2017-06-18T0635"; // We might need to display it
 
 /* The MAC address that our Ethernet Shield should use.
  	Well tuned DHCP servers give us a static lease according the MAC
@@ -108,37 +108,33 @@ void setup()
 {
   Serial.begin(9600);
   Serial.print("#### ");
-  Serial.println(message07);
+  Serial.println(message07); // "We log to syslog, thus mostly nothing here"
   Serial.println("");
 
   // start Ethernet
   if (Ethernet.begin(mac) == 0) {
-    Serial.println(message02);
+    Serial.println(message02); // "FATAL: Failed to configure Ethernet via DHCP. "
     // no point in carrying on, so do nothing forevermore:
     for (;;)
       ;
   }
   delay(1001); // Wait 1 sec for EthernetShield raising up
-  Udp.begin(localUdpPort); // Lazy we should actually check the return code
-  Serial.println(message08);
-  Serial.println(message01);
-  Serial.print(message04);
+  Udp.begin(localUdpPort);   // Lazy we should actually check the return code
+  Serial.println(message08); // "UDP library was bound."
+  Serial.println(message01); // "Ethernet has been started. "
+  Serial.print(message04);   // "My DHCP IP is: "
   Serial.println(Ethernet.localIP());
   
   sendSyslogMessage(2, message05); // Send our very first syslog msg
+                                   // "BOOT was suxxessful. ";
 
-/*   String message = "My DHCP address is: ";
-  message = message + MyAddress(Ethernet.localIP());
-  sendSyslogMessage(5, message);
-*/
-
-  strcat (msgBuff, message04);
+  strcat (msgBuff, message04);// "My DHCP IP is: "
   strcat (msgBuff, ip2CharArray(Ethernet.localIP()) );
-  sendSyslogMessage(5, msgBuff);
+  sendSyslogMessage(5, msgBuff); // severity 5
 
-  strcpy (msgBuff, message03);
+  strcpy (msgBuff, message03); // "My code is dated as: "
   strcat (msgBuff, currentVersion);
-  sendSyslogMessage(1, msgBuff);
+  sendSyslogMessage(1, msgBuff); // severity 1
   
 
 }  // End of SETUP
@@ -151,24 +147,24 @@ void setup()
 void loop()
 {
     //! @debug
-  Serial.print(message06);
+  Serial.print(message06); // Next loop; iteration #"
   Serial.println (iteration);
   
   strcpy (msgBuff, ""); // Cleaning?
   sprintf(numBuff, "%5u", iteration);
-  strcpy (msgBuff, message06);
+  strcpy (msgBuff, message06); // Next loop; iteration #"
   strcat (msgBuff, numBuff);
-  strcat (msgBuff, message11);
+  strcat (msgBuff, message11); // "; runtime milliseconds: " 
   // src for sprintf  %10ld trick: http://forum.arduino.cc/index.php?topic=95175.0
   sprintf(numBuff, "%10ld", millis());
   strcat (msgBuff, numBuff);
-  strcat (msgBuff, message09);
+  strcat (msgBuff, message09); // "; RAM free: "
   sprintf(numBuff, "%5u", freeRam());
   strcat (msgBuff, numBuff);
-  strcat (msgBuff, message10);
-  sendSyslogMessage(1, msgBuff); // This time on facility no 1
+  strcat (msgBuff, message10); // " Bytes"
+  sendSyslogMessage(5, msgBuff); // Severity 5
      
-  delay(10000); // approx 1 min
+  delay(60000); // approx 1 min
   iteration++;
     /* Some ppl recommend Ethernet.maintain() here, we won't do this for 2 reasons:
    	a) a too frequent loop, network admins will complain seeing it it every 60 sec
@@ -206,8 +202,13 @@ void sendSyslogMessage(int severity, String textToTransfer)
    Currently 32 goes to -> auth.log on my particular syslog ;)
    */
 
-  // Some black magic building up the UDP packet payload
-  byte pri = (32 + severity);
+  //----- Some black magic building up the UDP packet payload
+  
+  // ToDo - maybe Strings vernichtzen, convert to char[] style ?
+  
+  // Aee the math here: https://en.wikipedia.org/wiki/Syslog
+  // "local1" facility has code 23. Thus: pri = 8*23 + severity
+  byte pri = (136 + severity); //
   String priString = String(pri, DEC);
   String buffer = "<" + priString + ">" + theNameOfThisApp + " " + textToTransfer;
   int bufferLength = buffer.length();
@@ -220,7 +221,7 @@ void sendSyslogMessage(int severity, String textToTransfer)
   char1[bufferLength] = '\0';
   Udp.beginPacket(syslogServer, remoteSyslogPort);
   Udp.write(char1);
-  Udp.endPacket(); //this is slow 
+  Udp.endPacket(); // Some claim this is slow. Is it? What we call slow?
 
 }
 
