@@ -68,14 +68,21 @@
 //================================ VARIABLES ===============================//
 //==========================================================================//
 
- const char version[] = "2017-06-20T0200"; // For cases we need to show or syslog this 
+ const char version[] = "2017-06-22T2200"; // For cases we need to show or syslog this 
 
- const static String i2cDevice160 = "24LC512 Serial EEPROM wired to subaddress 000";
- const static String i2cDevice161 = "24LC512 Serial EEPROM wired to subaddress 001";
+ const static String i2cDevice80 = " 24LC512 Serial EEPROM wired to subaddress 000";
+ const static String i2cDevice81 = " 24LC512 Serial EEPROM wired to subaddress 001";
    // A sole device of this type allowed on bus - its I2C address cannot be modified 
  const static String i2cDevice104 = "Dallas DS3231 RTC with temperature sensor";
 
-
+/* NB! src: http://www.esp8266.com/viewtopic.php?f=32&t=12623
+   All the 24C02/04/08/16 chips are not following the same addressing scheme
+   than bigger chips such 24C64. It is normal that 24C08 respond four times
+   to scanner since it provide 4 page of 256 bytes. The library you are using
+   probably doesn't handle those small chips because it is providing 16 bits
+   addressing instead of 8 bits. I would then suggest to unsolder this 24C16
+   and throw it away and solder a bigger one such 24C64 or even bigger... 
+*/
    // Those are manageable by serial numbers lasered into
  const static String wireDevice040 = "Dallas DS18B20 temperature sensor";
  const static String wireDevice000 = "UNKNOWN DEVICE";
@@ -85,7 +92,7 @@
    // A global 2D array of <maxOnewireDevices> rows of 8-byte addresses
  byte inventory[maxOnewireDevices][8]; // here we store DS18b20 addresses
  int countOfI2CDevices = 0;     // we count these later
- int countOfOneWireDevices = 0; // we count these later
+ int countOfOneWireDevices = 0; //    and these too
  
  OneWire  ourBus(SENSOR_PIN);   // Derive a 1-wire object to wirk with
 
@@ -187,9 +194,17 @@ void discoverI2CDevices(void) {
       Serial.print (" (0x");
       Serial.print (i, HEX);
       Serial.print (") ");
+        // switch:
       if ( i == 104) {
       Serial.print ("- a " + i2cDevice104);
       }
+      if ( i == 80) {
+      Serial.print ("- a " + i2cDevice80);
+      }
+      if ( i == 81) {
+      Serial.print ("- a " + i2cDevice81);
+      }
+      
       Serial.println();
       
       count++;
