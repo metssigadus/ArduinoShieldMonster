@@ -9,8 +9,8 @@
 //!          Automatic discovery is possible.
 //!
 //! @details
-//!    <b>Last Modified:         </b> 2017-06-19                   \n
-//!    <b>Version:               </b> 0.0.5                        \n
+//!    <b>Last Modified:         </b> 2017-06-24                   \n
+//!    <b>Version:               </b> 0.0.6                        \n
 //!    <b>Company:               </b> R777                         \n
 //!    <b>Project:               </b> ArduinoShieldMonster         \n
 //!    <b>Language:              </b> C++                          \n
@@ -68,12 +68,12 @@
 //================================ VARIABLES ===============================//
 //==========================================================================//
 
- const char version[] = "2017-06-22T2200"; // For cases we need to show or syslog this 
+ const char version[] = "2017-06-24T2236"; // For cases we need to show or syslog this 
 
- const static String i2cDevice80 = " 24LC512 Serial EEPROM wired to subaddress 000";
- const static String i2cDevice81 = " 24LC512 Serial EEPROM wired to subaddress 001";
+ const static String i2cDevice80 = " 24LC512 Serial EEPROM; addr=000";
+ const static String i2cDevice81 = " 24LC512 Serial EEPROM; addr=001";
    // A sole device of this type allowed on bus - its I2C address cannot be modified 
- const static String i2cDevice104 = "Dallas DS3231 RTC with temperature sensor";
+ const static String i2cDevice104 = "Dallas DS3231 RTC & temperature sensor";
 
 /* NB! src: http://www.esp8266.com/viewtopic.php?f=32&t=12623
    All the 24C02/04/08/16 chips are not following the same addressing scheme
@@ -87,14 +87,14 @@
  const static String wireDevice040 = "Dallas DS18B20 temperature sensor";
  const static String wireDevice000 = "UNKNOWN DEVICE";
  
- const int maxOnewireDevices = 3; // count of planned OneWire temperature sensors
+ const int maxOnewireDevices = 5; // number of planned OneWire temperature sensors
  
    // A global 2D array of <maxOnewireDevices> rows of 8-byte addresses
  byte inventory[maxOnewireDevices][8]; // here we store DS18b20 addresses
  int countOfI2CDevices = 0;     // we count these later
  int countOfOneWireDevices = 0; //    and these too
  
- OneWire  ourBus(SENSOR_PIN);   // Derive a 1-wire object to wirk with
+ OneWire  ourBus(SENSOR_PIN);   // Derive a 1-wire object to work with
 
 
 //==========================================================================//
@@ -117,7 +117,7 @@ void setup() {
     discoverOneWireDevices();  //  FUNCTION: Enumerating devices on 1-wire bus
 
   // Inventory done. Reporting
-  Serial.print ("    == TOTAL Discovered: ");
+  Serial.print ("    === TOTAL Discovered: ");
   Serial.print ((countOfI2CDevices+countOfOneWireDevices), DEC);
   Serial.println (" interesting device(s).");
   
@@ -189,7 +189,7 @@ void discoverI2CDevices(void) {
     Wire.beginTransmission (i);
     if (Wire.endTransmission () == 0)
       {
-      Serial.print ("Found a device responding to address: ");
+      Serial.print ("A device responded to address: ");
       Serial.print (i, DEC);
       Serial.print (" (0x");
       Serial.print (i, HEX);
@@ -239,6 +239,12 @@ void discoverOneWireDevices(void) {
     Serial.print(" +"); // a plus sign printed out for every discovered sensor
     i++ ; // next sensor, next row
     countOfOneWireDevices = i; // Well, so far...
+       // Dammit! While(instance+1) is leading to memory corruption
+       // Elegant but inflexible. 
+    if (countOfOneWireDevices == maxOnewireDevices) {
+      Serial.println("\n\r        Notice: maximum configured capacity reached: >= const maxOnewireDevices.");
+      Serial.println("        If ANY more devices (plus signs) appear beyond this point, the memory *WILL* be corrupted afterwards.");
+    }
   }  // end of WHILE
   
   ourBus.reset_search(); // 'nuff to snoop
@@ -275,7 +281,7 @@ void sendInventoryToSyslog(byte inventory[][8]) {
     Serial.println("#### sendInventory() started.");
     for ( i = 0; i < countOfOneWireDevices ; i++) {
  
-    Serial.print("\n\rFound a \'1-Wire\' device: ");
+    Serial.print("\n\r\'1-Wire\' device registered: ");
               if (inventory[i][0] == 40) {
                  Serial.print(wireDevice040); // recognizing Dallas 18B20 ;)
                }
